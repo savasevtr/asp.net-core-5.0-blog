@@ -1,0 +1,6 @@
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\bin\Debug\net5.0\ProgrammersBlog.Entities.dll
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\bin\Debug\net5.0\ProgrammersBlog.Shared.dll
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.csprojAssemblyReference.cache
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.AssemblyInfoInputs.cache
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.AssemblyInfo.cs
