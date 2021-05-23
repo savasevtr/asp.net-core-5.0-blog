@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProgrammersBlog.Entities.Concrete;
+using System;
+using System.Text;
 
 namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
 {
@@ -29,6 +31,25 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
             builder.Property(u => u.Note).HasMaxLength(500);
             builder.HasOne<Role>(u => u.Role).WithMany(r => r.Users).HasForeignKey(u => u.RoleId);
             builder.ToTable("Users");
+            builder.HasData(new User
+            {
+                Id = 1,
+                RoleId = 1,
+                FirstName = "Savaş",
+                LastName = "Ev",
+                Username = "savasev",
+                Email = "savas.ev@yahoo.com",
+                Description = "ilk admin kullanıcısı",
+                Picture = "https://i2.cnnturk.com/i/cnnturk/75/630x0/57ea19ad8685762060249c06.jpg",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                ModifiedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Note = "ilk admin kullanıcısı",
+                PasswordHash = Encoding.ASCII.GetBytes("0192023a7bbd73250516f069df18b500")
+            });
         }
     }
 }

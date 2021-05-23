@@ -9,11 +9,11 @@ namespace ProgrammersBlog.Data.Concrete
     {
         private readonly ProgrammersBlogContext _context;
 
-        private EfArticleRepository _articleRepository;
-        private EfCategoryRepository _categoryRepository;
-        private EfCommentRepository _commentRepository;
-        private EfRoleRepository _roleRepository;
-        private EfUserRepository _userRepository;
+        private readonly EfArticleRepository _articleRepository;
+        private readonly EfCategoryRepository _categoryRepository;
+        private readonly EfCommentRepository _commentRepository;
+        private readonly EfRoleRepository _roleRepository;
+        private readonly EfUserRepository _userRepository;
 
         public UnitOfWork(ProgrammersBlogContext context)
         {
