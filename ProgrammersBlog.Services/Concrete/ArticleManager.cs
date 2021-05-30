@@ -22,27 +22,37 @@ namespace ProgrammersBlog.Services.Concrete
             _mapper = mapper;
         }
 
-        public async Task<IResult> Add(ArticleAddDto articleAddDto, string createdByName)
+        public async Task<IDataResult<ArticleDto>> Add(ArticleAddDto articleAddDto, string createdByName)
         {
             var article = _mapper.Map<Article>(articleAddDto);
             article.CreatedByName = createdByName;
             article.ModifiedByName = createdByName;
             article.UserId = 1;
 
-            await _unitOfWork.Articles.AddAsync(article);
+            var addedArticle = await _unitOfWork.Articles.AddAsync(article);
             await _unitOfWork.SaveAsync();
 
-            return new Result(ResultStatus.Success, $"{article.Title} başlıklı makale başarılı bir şekilde eklenmiştir.");
+            return new DataResult<ArticleDto>(ResultStatus.Success, $"{article.Title} başlıklı makale başarılı bir şekilde eklenmiştir.", new ArticleDto
+            {
+                Article = addedArticle,
+                ResultStatus = ResultStatus.Success,
+                Message = $"{article.Title} başlıklı makale başarılı bir şekilde eklenmiştir."
+            });
         }
 
-        public async Task<IResult> Update(ArticleUpdateDto articleUpdateDto, string modifiedByName)
+        public async Task<IDataResult<ArticleDto>> Update(ArticleUpdateDto articleUpdateDto, string modifiedByName)
         {
             var article = _mapper.Map<Article>(articleUpdateDto);
             article.ModifiedByName = modifiedByName;
-            await _unitOfWork.Articles.UpdateAsync(article);
+            var updatedArticle = await _unitOfWork.Articles.UpdateAsync(article);
             await _unitOfWork.SaveAsync();
 
-            return new Result(ResultStatus.Success, $"{articleUpdateDto.Title} başlıklı makale başarılı bir şekilde güncellenmiştir");
+            return new DataResult<ArticleDto>(ResultStatus.Success, $"{articleUpdateDto.Title} başlıklı makale başarılı bir şekilde güncellenmiştir", new ArticleDto
+            {
+                Article = updatedArticle,
+                ResultStatus = ResultStatus.Success,
+                Message = $"{articleUpdateDto.Title} başlıklı makale başarılı bir şekilde güncellenmiştir"
+            });
         }
 
         public async Task<IDataResult<ArticleDto>> Get(int articleId)
@@ -58,7 +68,12 @@ namespace ProgrammersBlog.Services.Concrete
                 });
             }
 
-            return new DataResult<ArticleDto>(ResultStatus.Error, "Böyle bir makale bulunamadı.", null);
+            return new DataResult<ArticleDto>(ResultStatus.Error, "Böyle bir makale bulunamadı.", new ArticleDto
+            {
+                Article = null,
+                ResultStatus = ResultStatus.Error,
+                Message = "Böyle bir makale bulunamadı."
+            });
         }
 
         public async Task<IDataResult<ArticleListDto>> GetAll()
