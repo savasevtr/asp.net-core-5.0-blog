@@ -1,6 +1,5 @@
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\bin\Debug\net5.0\ProgrammersBlog.Entities.dll
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\bin\Debug\net5.0\ProgrammersBlog.Shared.dll
-D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.csprojAssemblyReference.cache
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.GeneratedMSBuildEditorConfig.editorconfig
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.AssemblyInfoInputs.cache
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.AssemblyInfo.cs
@@ -18,3 +17,4 @@ D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\Program
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ref\ProgrammersBlog.Data.dll
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.pdb
 D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.genruntimeconfig.cache
+D:\DotNetCoreRepos\ProgrammersBlog\ProgrammersBlog.Data\obj\Debug\net5.0\ProgrammersBlog.Data.csproj.AssemblyReference.cache
