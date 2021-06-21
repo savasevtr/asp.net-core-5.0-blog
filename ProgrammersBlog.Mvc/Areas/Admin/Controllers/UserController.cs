@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.DTOs;
+using ProgrammersBlog.Mvc.Areas.Admin.Models;
 using ProgrammersBlog.Shared.Utilities.Extensions;
 using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
@@ -19,11 +22,13 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IWebHostEnvironment _env;
+        private readonly IMapper _mapper;
 
-        public UserController(UserManager<User> userManager, IWebHostEnvironment env)
+        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper)
         {
             _userManager = userManager;
             _env = env;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -43,13 +48,64 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return PartialView("_UserAddPartial");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add(UserAddDto userAddDto)
+        {
+            if (ModelState.IsValid)
+            {
+                userAddDto.Picture = await ImageUpload(userAddDto);
+
+                var user = _mapper.Map<User>(userAddDto);
+
+                var result = await _userManager.CreateAsync(user, userAddDto.Password);
+
+                if (result.Succeeded)
+                {
+                    var userAddAjaxModel = JsonSerializer.Serialize(new UserAddAjaxViewModel
+                    {
+                        UserDto = new UserDto
+                        {
+                            ResultStatus = ResultStatus.Success,
+                            Message = $"{user.UserName} adlı kullanıcı adına sahip kullanıcı başarıyla eklenmiştir."
+                        },
+                        UserAddPartial = await this.RenderViewToStringAsync("_UserAddPartial", userAddDto)
+                    });
+
+                    return Json(userAddAjaxModel);
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+
+                    var userAddAjaxErrorModel = JsonSerializer.Serialize(new UserAddAjaxViewModel
+                    {
+                        UserAddDto = userAddDto,
+                        UserAddPartial = await this.RenderViewToStringAsync("_UserAddPartial", userAddDto),
+                    });
+
+                    return Json(userAddAjaxErrorModel);
+                }
+            }
+
+            var userAddAjaxModelStateErrorModel = JsonSerializer.Serialize(new UserAddAjaxViewModel
+            {
+                UserAddDto = userAddDto,
+                UserAddPartial = await this.RenderViewToStringAsync("_UserAddPartial", userAddDto),
+            });
+
+            return Json(userAddAjaxModelStateErrorModel);
+        }
+
         public async Task<string> ImageUpload(UserAddDto userAddDto)
         {
             string wwwroot = _env.WebRootPath;
-            
-            //string fileName = Path.GetFileNameWithoutExtension(userAddDto.Picture.FileName);
 
-            string fileExtension = Path.GetExtension(userAddDto.Picture.FileName);
+            //string fileName = Path.GetFileNameWithoutExtension(userAddDto.PictureFile.FileName);
+
+            string fileExtension = Path.GetExtension(userAddDto.PictureFile.FileName);
 
             DateTime dateTime = DateTime.Now;
 
@@ -59,7 +115,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 
             await using(var stream = new FileStream(path, FileMode.Create))
             {
-                await userAddDto.Picture.CopyToAsync(stream);
+                await userAddDto.PictureFile.CopyToAsync(stream);
             }
 
             return fileName;
